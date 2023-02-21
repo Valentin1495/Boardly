@@ -1,5 +1,6 @@
 import './globals.css';
 import RootStyleRegistry from './emotion';
+import SessionProvider from '@/components/SessionProvider';
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   return (
@@ -10,7 +11,9 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
       */}
       <head />
       <body>
-        <RootStyleRegistry>{children}</RootStyleRegistry>
+        <RootStyleRegistry>
+          <SessionProvider>{children}</SessionProvider>
+        </RootStyleRegistry>
       </body>
     </html>
   );

@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 'use client';
 
+import { signIn } from 'next-auth/react';
+
 export default function Login() {
   return (
     <div
@@ -34,10 +36,13 @@ export default function Login() {
         css={{
           marginBottom: '10px',
         }}
+        onClick={() => signIn('google')}
       >
         Continue with Google
       </button>
-      <button className='login-btn'>Continue with Github</button>
+      <button className='login-btn' onClick={() => signIn('github')}>
+        Continue with Github
+      </button>
     </div>
   );
 }
