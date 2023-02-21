@@ -1,3 +1,9 @@
+import Login from '@/components/Login';
+
 export default function Home() {
-  return <main>nextjs 13 and emotion!</main>;
+  return (
+    <main>
+      <Login />
+    </main>
+  );
 }

@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-twitter {
+  color: rgb(29, 155, 240);
+}
+
+.bg-twitter {
+  background-color: rgb(29, 155, 240);
+}
+
+.login-btn {
+  color: white;
+  font-weight: bold;
+  font-size: large;
+  transition: color 300ms;
+}
+.login-btn:hover {
+  color: black;
+}
