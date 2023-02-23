@@ -11,10 +11,14 @@ import {
   ClipboardDocumentListIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
+import { Session } from 'next-auth';
 
-export default function SideBarLink({ emailId }: { emailId: string }) {
+export default function SideBarLink({ session }: { session: Session | null }) {
   const breakpoints = [640, 768, 1024, 1280];
   const mq = breakpoints.map((bp) => `@media (min-width: ${bp}px)`);
+  const email = session?.user?.email;
+  const idx = email?.indexOf('@');
+  const emailId = email?.slice(0, idx);
 
   return (
     <section

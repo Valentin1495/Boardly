@@ -1,39 +1,53 @@
 /** @jsxImportSource @emotion/react */
 'use client';
 
+import { css } from '@emotion/react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
-
-interface Profile {
-  session: Session | null;
-  username: string;
-  emailId: string;
-  profilePic: string;
-}
+import { useState } from 'react';
 
 export default function SideBarProfile({
   session,
-  username,
-  emailId,
-  profilePic,
-}: Profile) {
+}: {
+  session: Session | null;
+}) {
+  const username = session?.user?.name;
+  const profilePic = session?.user?.image;
+  const email = session?.user?.email;
+  const idx = email?.indexOf('@');
+  const emailId = email?.slice(0, idx);
   const breakpoints = [640, 768, 1024, 1280];
   const mq = breakpoints.map((bp) => `@media (min-width: ${bp}px)`);
+  const [showBtn, setShowBtn] = useState(false);
+  const btnStyles = css`
+    opacity: ${showBtn ? 1 : 0};
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    text-align: left;
+    pointer-events: ${showBtn ? 'all' : 'none'};
+    transition: all 300ms;
+  `;
+
   if (!session) return <></>;
 
   return (
     <section
+      className='max-w-full'
       css={{
         display: 'block',
+        position: 'relative',
         [mq[3]]: {
           display: 'flex',
           alignItems: 'start',
           flexDirection: 'column-reverse',
+          position: 'unset',
         },
       }}
     >
-      <button
+      <div
         className='profile-btn'
         css={{
           [mq[0]]: {
@@ -53,23 +67,28 @@ export default function SideBarProfile({
           },
         }}
       >
-        <img
-          src={profilePic as string}
-          alt='Profile picture'
-          css={{
-            width: 35,
-            height: 35,
-            objectFit: 'cover',
-            borderRadius: '50%',
-            [mq[0]]: {
-              width: 54,
-              height: 54,
-            },
-            [mq[3]]: {
-              marginRight: 15,
-            },
-          }}
-        />
+        <button
+          css={{ [mq[3]]: { pointerEvents: 'none' } }}
+          onClick={() => setShowBtn((prev) => !prev)}
+        >
+          <img
+            src={profilePic as string}
+            alt='Profile picture'
+            css={{
+              width: 35,
+              height: 35,
+              objectFit: 'cover',
+              borderRadius: '50%',
+              [mq[0]]: {
+                width: 54,
+                height: 54,
+              },
+              [mq[3]]: {
+                marginRight: 15,
+              },
+            }}
+          />
+        </button>
         <section
           css={{
             display: 'none',
@@ -107,7 +126,8 @@ export default function SideBarProfile({
             },
           }}
         />
-      </button>
+      </div>
+
       <button
         onClick={() => {
           signOut();
@@ -128,6 +148,14 @@ export default function SideBarProfile({
             display: 'inline-block',
           },
         }}
+      >
+        Log out @{emailId}
+      </button>
+
+      <button
+        onClick={() => signOut()}
+        className='hover:text-gray-500 xl:hidden left-12 sm:left-20 text-sm sm:text-base w-48 truncate'
+        css={btnStyles}
       >
         Log out @{emailId}
       </button>
