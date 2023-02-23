@@ -31,9 +31,6 @@
     background-color: rgb(229 231 235);
     transition: background-color 300ms;
   }
-  .sidebar-link:focus + .siderbar-text {
-    font-weight: bold;
-  }
 
   .sidebar-icon {
     @apply mx-auto xl:mr-[10px] w-7 h-7 xl:w-[35px] xl:h-[35px];
