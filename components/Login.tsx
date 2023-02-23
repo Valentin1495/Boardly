@@ -15,14 +15,13 @@ export default function Login() {
         minHeight: '100vh',
       }}
     >
-      {' '}
       <svg
         viewBox='0 0 24 24'
         aria-hidden='true'
         css={{
-          marginBottom: '20px',
-          width: '100px',
-          height: '100px',
+          marginBottom: 20,
+          width: 100,
+          height: 100,
           color: 'white',
         }}
         fill='currentcolor'
@@ -34,7 +33,7 @@ export default function Login() {
       <button
         className='login-btn'
         css={{
-          marginBottom: '10px',
+          marginBottom: 10,
         }}
         onClick={() => signIn('google')}
       >

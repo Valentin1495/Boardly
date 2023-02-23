@@ -2,20 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-.text-twitter {
-  color: rgb(29, 155, 240);
-}
+@layer components {
+  .text-twitter {
+    color: rgb(29, 155, 240);
+  }
 
-.bg-twitter {
-  background-color: rgb(29, 155, 240);
-}
+  .bg-twitter {
+    background-color: rgb(29, 155, 240);
+  }
 
-.login-btn {
-  color: white;
-  font-weight: bold;
-  font-size: large;
-  transition: color 300ms;
-}
-.login-btn:hover {
-  color: black;
+  .login-btn {
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    transition: color 300ms;
+  }
+  .login-btn:hover {
+    color: black;
+  }
+
+  .sidebar-link {
+    margin-bottom: 10px;
+    border-radius: 9999px;
+    width: fit-content;
+    @apply p-2.5 block xl:flex xl:items-center mx-auto xl:mx-0 xl:px-[10px] xl:py-[5px];
+  }
+  .sidebar-link:hover {
+    background-color: rgb(229 231 235);
+    transition: background-color 300ms;
+  }
+  .sidebar-link:focus + .siderbar-text {
+    font-weight: bold;
+  }
+
+  .sidebar-icon {
+    @apply mx-auto xl:mr-[10px] w-7 h-7 xl:w-[35px] xl:h-[35px];
+  }
+
+  .sidebar-text {
+    @apply text-xl hidden xl:inline;
+  }
+
+  .logout-btn {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .profile-btn:focus + .logout-btn {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .logout-btn:active {
+    pointer-events: all;
+  }
 }
