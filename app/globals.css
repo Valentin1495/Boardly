@@ -53,4 +53,8 @@
   .logout-btn:active {
     pointer-events: all;
   }
+
+  textarea::-webkit-scrollbar {
+    display: none;
+  }
 }

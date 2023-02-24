@@ -3,7 +3,6 @@
 
 import { css } from '@emotion/react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
-
 import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -64,27 +63,26 @@ export default function SideBarProfile() {
           },
         }}
       >
-        <button>
-          <img
-            onClick={() => setShowBtn((prev) => !prev)}
-            src={profilePic as string}
-            alt='Profile picture'
-            css={{
-              width: 35,
-              height: 35,
-              objectFit: 'cover',
-              borderRadius: '50%',
-              [mq[0]]: {
-                width: 54,
-                height: 54,
-              },
-              [mq[3]]: {
-                marginRight: 15,
-                pointerEvents: 'none',
-              },
-            }}
-          />
-        </button>
+        <img
+          onClick={() => setShowBtn((prev) => !prev)}
+          src={profilePic as string}
+          alt='Profile picture'
+          css={{
+            width: 35,
+            height: 35,
+            objectFit: 'cover',
+            borderRadius: '50%',
+            [mq[0]]: {
+              width: 54,
+              height: 54,
+            },
+            [mq[3]]: {
+              marginRight: 15,
+              pointerEvents: 'none',
+            },
+          }}
+        />
+
         <section
           css={{
             display: 'none',
