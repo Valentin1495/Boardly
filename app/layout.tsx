@@ -1,8 +1,18 @@
 import './globals.css';
 import RootStyleRegistry from './emotion';
 import SessionProvider from '@/components/SessionProvider';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import SideBar from '@/components/SideBar';
+import Login from '@/components/Login';
 
-export default function RootLayout({ children }: { children: JSX.Element }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: JSX.Element;
+}) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang='en'>
       {/*
@@ -12,7 +22,18 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
       <head />
       <body>
         <RootStyleRegistry>
-          <SessionProvider>{children}</SessionProvider>
+          <SessionProvider>
+            {session ? (
+              <div className='grid grid-cols-7 md:grid-cols-4 max-w-7xl mx-auto'>
+                <SideBar />
+                <section className='col-span-6 md:col-span-3'>
+                  {children}
+                </section>
+              </div>
+            ) : (
+              <Login />
+            )}
+          </SessionProvider>
         </RootStyleRegistry>
       </body>
     </html>

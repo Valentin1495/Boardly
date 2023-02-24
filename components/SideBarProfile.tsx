@@ -3,15 +3,12 @@
 
 import { css } from '@emotion/react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
-import { Session } from 'next-auth';
-import { signOut } from 'next-auth/react';
+
+import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-export default function SideBarProfile({
-  session,
-}: {
-  session: Session | null;
-}) {
+export default function SideBarProfile() {
+  const { data: session } = useSession();
   const username = session?.user?.name;
   const profilePic = session?.user?.image;
   const email = session?.user?.email;
@@ -47,7 +44,7 @@ export default function SideBarProfile({
         },
       }}
     >
-      <div
+      <button
         className='profile-btn'
         css={{
           [mq[0]]: {
@@ -67,11 +64,9 @@ export default function SideBarProfile({
           },
         }}
       >
-        <button
-          css={{ [mq[3]]: { pointerEvents: 'none' } }}
-          onClick={() => setShowBtn((prev) => !prev)}
-        >
+        <button>
           <img
+            onClick={() => setShowBtn((prev) => !prev)}
             src={profilePic as string}
             alt='Profile picture'
             css={{
@@ -85,6 +80,7 @@ export default function SideBarProfile({
               },
               [mq[3]]: {
                 marginRight: 15,
+                pointerEvents: 'none',
               },
             }}
           />
@@ -126,7 +122,7 @@ export default function SideBarProfile({
             },
           }}
         />
-      </div>
+      </button>
 
       <button
         onClick={() => {
