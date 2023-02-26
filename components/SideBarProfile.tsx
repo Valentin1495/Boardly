@@ -29,10 +29,10 @@ export default function SideBarProfile() {
 
   if (!session)
     return (
-      <div>
-        <div className='rounded-full mx-auto sm:m-0 sm:mr-[10px] block xl:hidden animate-pulse bg-slate-200 w-9 h-9 sm:w-14 sm:h-14'></div>
+      <>
+        <div className='rounded-full mx-auto block xl:hidden animate-pulse bg-slate-200 w-9 h-9 sm:w-14 sm:h-14'></div>
         <div className='mt-[140px] rounded-full w-[280px] h-12 bg-slate-200 animate-pulse hidden xl:block'></div>
-      </div>
+      </>
     );
 
   return (
@@ -53,7 +53,7 @@ export default function SideBarProfile() {
         className='profile-btn'
         css={{
           [mq[0]]: {
-            marginRight: 12,
+            // marginRight: 12,
           },
           [mq[3]]: {
             display: 'flex',

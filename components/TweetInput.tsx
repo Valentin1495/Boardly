@@ -5,7 +5,6 @@ import { PhotoIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { InputFiles } from 'typescript';
 
 export default function TweetInput() {
   const { data: session } = useSession();
@@ -48,10 +47,10 @@ export default function TweetInput() {
   return (
     <div
       css={{ display: 'flex', padding: 12 }}
-      className='border-b border-b-slate-200 space-x-3'
+      className='border-y border-y-slate-200 space-x-3'
     >
       {profilePic ? (
-        <Link href={`/${emailId}`}>
+        <Link href={`/${emailId}`} css={{ minWidth: 'fit-content' }}>
           <img
             src={profilePic}
             alt='Profile picture'
@@ -63,7 +62,7 @@ export default function TweetInput() {
           />
         </Link>
       ) : (
-        <div className='animate-pulse bg-slate-200 w-12 h-12 sm:w-16 sm:h-16 rounded-full'></div>
+        <div className='animate-pulse bg-slate-200 w-10 h-10 sm:w-16 sm:h-16 rounded-full'></div>
       )}
       <div css={{ width: '90%' }}>
         <textarea
@@ -73,7 +72,7 @@ export default function TweetInput() {
             width: '100%',
             minHeight: 65,
             marginRight: 12,
-            marginBottom: 8,
+            marginBottom: 12,
             paddingBottom: 6,
             outline: 'none',
           }}

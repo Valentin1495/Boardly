@@ -12,10 +12,10 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
+import SideBarRow from './SideBarRow';
 
-
-export default function SideBarLink() {
-  const {data: session} = useSession()
+export default function SideBarLinks() {
+  const { data: session } = useSession();
   const breakpoints = [640, 768, 1024, 1280];
   const mq = breakpoints.map((bp) => `@media (min-width: ${bp}px)`);
   const email = session?.user?.email;
@@ -27,9 +27,6 @@ export default function SideBarLink() {
       css={{
         marginBottom: 75,
         flexGrow: 1,
-        [mq[0]]: {
-          paddingRight: 10,
-        },
       }}
     >
       <Link href='/'>
@@ -62,40 +59,25 @@ export default function SideBarLink() {
         </svg>
       </Link>
 
-      <Link href='/' className='sidebar-link'>
-        <HomeIcon className='sidebar-icon' />
-        <span className='sidebar-text'>Home</span>
-      </Link>
-
-      <Link href='/explore' className='sidebar-link'>
-        <HashtagIcon className='sidebar-icon' />
-        <span className='sidebar-text'>Explore</span>
-      </Link>
-
-      <Link href='/notifications' className='sidebar-link'>
-        <BellIcon className='sidebar-icon' />
-        <span className='sidebar-text'>Notifications</span>
-      </Link>
-
-      <Link href='/messages' className='sidebar-link'>
-        <EnvelopeIcon className='sidebar-icon' />
-        <span className='sidebar-text'>Messages</span>
-      </Link>
-
-      <Link href='/bookmarks' className='sidebar-link'>
-        <BookmarkIcon className='sidebar-icon' />
-        <span className='sidebar-text'>Bookmarks</span>
-      </Link>
-
-      <Link href={`/${emailId}/lists`} className='sidebar-link'>
-        <ClipboardDocumentListIcon className='sidebar-icon' />
-        <span className='sidebar-text'>Lists</span>
-      </Link>
-
-      <Link href={`/${emailId}`} className='sidebar-link'>
-        <UserIcon className='sidebar-icon' />
-        <span className='sidebar-text'>Profile</span>
-      </Link>
+      <SideBarRow RowIcon={HomeIcon} title={'Home'} href={''} />
+      <SideBarRow RowIcon={HashtagIcon} title={'Explore'} href={'explore'} />
+      <SideBarRow
+        RowIcon={BellIcon}
+        title={'Notifications'}
+        href={'notifications'}
+      />
+      <SideBarRow RowIcon={EnvelopeIcon} title={'Messages'} href={'messages'} />
+      <SideBarRow
+        RowIcon={BookmarkIcon}
+        title={'Bookmarks'}
+        href={'bookmarks'}
+      />
+      <SideBarRow
+        RowIcon={ClipboardDocumentListIcon}
+        title={'Lists'}
+        href={`${emailId}/lists`}
+      />
+      <SideBarRow RowIcon={UserIcon} title={'Profile'} href={`${emailId}`} />
 
       <button
         css={{

@@ -1,16 +1,19 @@
 import RightSideBar from '@/components/RightSideBar';
-import TweetInput from '@/components/Tweet';
-import Tweets from '@/components/Tweets';
+import Suggestions from '@/components/Suggestions';
+import TweetInput from '@/components/TweetInput';
+import supabase from '@/utils/supabase';
 
-export default function Home() {
+export default async function Home() {
+  const { data, error } = await supabase.from('My tweets').select();
+
   return (
-    <main className='xl:flex'>
-      <div className='xl:w-2/3'>
-        <div className='sticky top-0 p-1.5 sm:p-3 border-b border-b-slate-200 text-lg sm:text-xl font-black'>
-          Home
+    <main className='flex'>
+      <div className='w-full md:w-[600px] lg:w-2/3 min-h-screen border-x border-x-slate-200'>
+        <div className='sticky top-0 bg-white'>
+          <h1 className='p-2 text-base sm:text-xl font-black sm:p-3'>Home</h1>
+          <TweetInput />
         </div>
-        <TweetInput />
-        <Tweets />
+        <Suggestions />
       </div>
       <RightSideBar />
     </main>
