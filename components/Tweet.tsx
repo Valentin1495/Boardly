@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { InputFiles } from 'typescript';
 
-export default function Tweet() {
+export default function TweetInput() {
   const { data: session } = useSession();
   const email = session?.user?.email;
   const idx = email?.indexOf('@');
@@ -48,23 +48,24 @@ export default function Tweet() {
   return (
     <div
       css={{ display: 'flex', padding: 12 }}
-      className='border-b border-b-slate-200'
+      className='border-b border-b-slate-200 space-x-3'
     >
-      <Link
-        href={`/${emailId}`}
-        css={{ marginRight: 12, minWidth: 'fit-content' }}
-      >
-        <img
-          src={profilePic}
-          alt='Profile picture'
-          className='w-10 h-10 sm:w-16 sm:h-16'
-          css={{
-            objectFit: 'cover',
-            borderRadius: '50%',
-          }}
-        />
-      </Link>
-      <div css={{ width: '100%' }}>
+      {profilePic ? (
+        <Link href={`/${emailId}`}>
+          <img
+            src={profilePic}
+            alt='Profile picture'
+            className='w-10 h-10 sm:w-16 sm:h-16'
+            css={{
+              objectFit: 'cover',
+              borderRadius: '50%',
+            }}
+          />
+        </Link>
+      ) : (
+        <div className='animate-pulse bg-slate-200 w-12 h-12 sm:w-16 sm:h-16 rounded-full'></div>
+      )}
+      <div css={{ width: '90%' }}>
         <textarea
           ref={textareaRef}
           placeholder="What's happening?"

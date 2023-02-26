@@ -1,5 +1,6 @@
 import RightSideBar from '@/components/RightSideBar';
-import Tweet from '@/components/Tweet';
+import TweetInput from '@/components/Tweet';
+import Tweets from '@/components/Tweets';
 
 export default function Home() {
   return (
@@ -8,8 +9,8 @@ export default function Home() {
         <div className='sticky top-0 p-1.5 sm:p-3 border-b border-b-slate-200 text-lg sm:text-xl font-black'>
           Home
         </div>
-        <Tweet />
-        <div></div>
+        <TweetInput />
+        <Tweets />
       </div>
       <RightSideBar />
     </main>
