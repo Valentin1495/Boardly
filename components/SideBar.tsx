@@ -3,7 +3,7 @@ import SideBarProfile from './SideBarProfile';
 
 export default function SideBar() {
   return (
-    <div className='fixed flex flex-col h-screen pt-[5px] pb-[10px] items-center sm:items-end p-5 xl:block'>
+    <div className='fixed hidden sm:flex flex-col h-screen pt-[5px] pb-[10px] sm:items-end sm:p-5 xl:block'>
       <SideBarLinks />
       <SideBarProfile />
     </div>

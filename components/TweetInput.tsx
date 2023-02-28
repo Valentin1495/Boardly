@@ -130,7 +130,7 @@ export default function TweetInput() {
           />
           <button
             disabled={!tweet?.trim() && !preview}
-            className='disabled:opacity-50 disabled:cursor-not-allowed bg-twitter text-white font-bold rounded-full px-5 py-1.5'
+            className='disabled:opacity-50 disabled:cursor-not-allowed bg-twitter text-white font-bold text-sm sm:text-base rounded-full px-4 py-1 sm:px-5 sm:py-1.5'
           >
             Tweet
           </button>

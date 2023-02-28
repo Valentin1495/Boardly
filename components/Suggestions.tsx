@@ -1,3 +1,4 @@
+/**@jsxImportSource @emotion/react */
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -32,7 +33,7 @@ export default function Suggestions() {
   if (!users) return <p>loading...</p>;
 
   return (
-    <div>
+    <div className='space-y-5'>
       {users.map((user) => (
         <Suggestion key={user.id} {...user} />
       ))}

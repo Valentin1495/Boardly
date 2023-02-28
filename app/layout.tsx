@@ -26,9 +26,7 @@ export default async function RootLayout({
             {session ? (
               <div className='flex lg:max-w-5xl xl:max-w-7xl mx-auto'>
                 <SideBar />
-                <div className='ml-[85px] sm:ml-[95px] w-full xl:ml-[280px]'>
-                  {children}
-                </div>
+                <div className='sm:ml-[95px] xl:ml-[280px]'>{children}</div>
               </div>
             ) : (
               <Login />
