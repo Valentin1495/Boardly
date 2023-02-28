@@ -25,6 +25,13 @@ export default function SideBarProfile() {
     text-align: left;
     pointer-events: ${showBtn ? 'all' : 'none'};
     transition: all 300ms;
+    padding: 10px;
+    border-radius: 6px;
+    width: 100%;
+    transition: opacity 200ms;
+    box-shadow: 0 0 5px 2.5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    background-color: white;
   `;
 
   if (!session)
@@ -154,7 +161,7 @@ export default function SideBarProfile() {
 
       <button
         onClick={() => signOut()}
-        className='hover:text-gray-500 xl:hidden left-12 sm:left-20 text-sm sm:text-base w-48 truncate'
+        className='hover:text-gray-500 xl:hidden left-12 sm:left-20 text-sm sm:text-base inline-block min-w-fit'
         css={btnStyles}
       >
         Log out @{emailId}

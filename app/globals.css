@@ -3,14 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-  .text-twitter {
-    color: rgb(29, 155, 240);
-  }
-
-  .bg-twitter {
-    background-color: rgb(29, 155, 240);
-  }
-
   .login-btn {
     color: white;
     font-weight: bold;

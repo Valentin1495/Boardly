@@ -59,6 +59,9 @@ export default function Suggestion({
               borderRadius: 9999,
               padding: '5px 10px',
               fontWeight: 'bold',
+              '&:hover': {
+                opacity: '70%',
+              },
             }}
           >
             Follow
