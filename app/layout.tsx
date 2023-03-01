@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import SideBar from '@/components/SideBar';
 import Login from '@/components/Login';
+import QueryProvider from '@/components/QueryProvider';
 
 export default async function RootLayout({
   children,
@@ -22,16 +23,20 @@ export default async function RootLayout({
       <head />
       <body>
         <RootStyleRegistry>
-          <SessionProvider>
-            {session ? (
-              <div className='flex lg:max-w-5xl xl:max-w-7xl mx-auto'>
-                <SideBar />
-                <div className='sm:ml-[95px] xl:ml-[280px]'>{children}</div>
-              </div>
-            ) : (
-              <Login />
-            )}
-          </SessionProvider>
+          <QueryProvider>
+            <SessionProvider>
+              <>
+                {session ? (
+                  <div className='flex lg:max-w-5xl xl:max-w-7xl mx-auto'>
+                    <SideBar />
+                    <div className='sm:ml-[95px] xl:ml-[280px]'>{children}</div>
+                  </div>
+                ) : (
+                  <Login />
+                )}
+              </>
+            </SessionProvider>
+          </QueryProvider>
         </RootStyleRegistry>
       </body>
     </html>

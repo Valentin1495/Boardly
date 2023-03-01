@@ -64,7 +64,7 @@ export default function TweetInput() {
       ) : (
         <div className='animate-pulse bg-slate-200 w-10 h-10 sm:w-16 sm:h-16 rounded-full'></div>
       )}
-      <div css={{ width: '90%' }}>
+      <form css={{ width: '85%' }}>
         <textarea
           ref={textareaRef}
           placeholder="What's happening?"
@@ -129,13 +129,14 @@ export default function TweetInput() {
             onChange={selectImg}
           />
           <button
+            type='submit'
             disabled={!tweet?.trim() && !preview}
             className='disabled:opacity-50 disabled:cursor-not-allowed bg-twitter text-white font-bold text-sm sm:text-base rounded-full px-4 py-1 sm:px-5 sm:py-1.5'
           >
             Tweet
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
