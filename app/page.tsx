@@ -1,10 +1,7 @@
 import RightSideBar from '@/components/RightSideBar';
 import TweetInput from '@/components/TweetInput';
-import supabase from '@/utils/supabase';
 
 export default async function Home() {
-  const { data, error } = await supabase.from('My tweets').select();
-
   return (
     <main className='flex'>
       <div className='sm:min-w-[530px] md:min-w-[670px] min-h-screen sm:border-x border-x-slate-200'>

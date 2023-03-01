@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 'use client';
 
+import supabase from '@/utils/supabase';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { toast, Toaster } from 'react-hot-toast';
 
 export default function TweetInput() {
   const { data: session } = useSession();
@@ -12,6 +14,7 @@ export default function TweetInput() {
   const idx = email?.indexOf('@');
   const emailId = email?.slice(0, idx);
   const profilePic = session?.user?.image as string;
+  const username = session?.user?.name;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const [tweet, setTweet] = useState<string>();
@@ -32,7 +35,7 @@ export default function TweetInput() {
       textareaRef.current.style.height =
         textareaRef.current.scrollHeight + 'px';
     }
-  }, [textareaRef, tweet]);
+  }, [textareaRef]);
 
   useEffect(() => {
     if (img) {
@@ -43,6 +46,24 @@ export default function TweetInput() {
       setPreview(undefined);
     }
   }, [img]);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const { error } = await supabase.from('Tweets').insert({
+      tweet,
+      username,
+      email_id: emailId,
+      avatar: profilePic,
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success('Tweet added!');
+      setTweet('');
+    }
+  };
 
   return (
     <div
@@ -64,7 +85,7 @@ export default function TweetInput() {
       ) : (
         <div className='animate-pulse bg-slate-200 w-10 h-10 sm:w-16 sm:h-16 rounded-full'></div>
       )}
-      <form css={{ width: '85%' }}>
+      <form css={{ width: '85%' }} onSubmit={handleSubmit}>
         <textarea
           ref={textareaRef}
           placeholder="What's happening?"
@@ -130,13 +151,14 @@ export default function TweetInput() {
           />
           <button
             type='submit'
-            disabled={!tweet?.trim() && !preview}
+            disabled={!tweet && !preview}
             className='disabled:opacity-50 disabled:cursor-not-allowed bg-twitter text-white font-bold text-sm sm:text-base rounded-full px-4 py-1 sm:px-5 sm:py-1.5'
           >
             Tweet
           </button>
         </div>
       </form>
+      <Toaster />
     </div>
   );
 }
