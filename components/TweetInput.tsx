@@ -22,6 +22,7 @@ export default function TweetInput() {
   const [img, setImg] = useState<File>();
 
   const handleChange = () => setTweet(textareaRef.current?.value);
+
   const selectImg = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type.substring(0, 5) === 'image') {
@@ -50,18 +51,34 @@ export default function TweetInput() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const { error } = await supabase.from('Tweets').insert({
-      tweet,
-      username,
-      email_id: emailId,
-      avatar: profilePic,
-    });
+    if (tweet) {
+      const { error } = await supabase.from('Tweets').insert({
+        tweet,
+        username,
+        email_id: emailId,
+        avatar: profilePic,
+      });
 
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success('Tweet added!');
-      setTweet('');
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success('Tweet added!');
+        setTweet('');
+      }
+    }
+
+    if (preview && img) {
+      const { error: err } = await supabase.storage
+        .from('photos')
+        .upload(img.name, img);
+
+      if (err) {
+        toast.error(err.message);
+      } else {
+        toast.success('Tweet added!');
+        setPreview(undefined);
+        setImg(undefined);
+      }
     }
   };
 
