@@ -7,6 +7,12 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
+import { v4 as uuidv4 } from 'uuid';
+
+interface Previews {
+  id: string;
+  src: string;
+}
 
 export default function TweetInput() {
   const { data: session } = useSession();
@@ -17,17 +23,19 @@ export default function TweetInput() {
   const username = session?.user?.name;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const [tweet, setTweet] = useState<string>();
-  const [preview, setPreview] = useState<string>();
-  const [img, setImg] = useState<File>();
+  const [tweet, setTweet] = useState<string>('');
+  const [previews, setPreviews] = useState<Previews[]>([]);
+  const [imageFiles, setImageFiles] = useState<FileList>();
+  const [imgPaths, setImgPaths] = useState<string[]>([]);
 
-  const handleChange = () => setTweet(textareaRef.current?.value);
+  const handleChange = () => setTweet(textareaRef.current?.value!);
 
   const selectImg = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && file.type.substring(0, 5) === 'image') {
-      setImg(file);
-    } else setImg(undefined);
+    const files = e.target.files;
+
+    if (files?.length) {
+      setImageFiles(files);
+    }
   };
 
   useEffect(() => {
@@ -39,46 +47,62 @@ export default function TweetInput() {
   }, [textareaRef]);
 
   useEffect(() => {
-    if (img) {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(img);
-      fileReader.onloadend = () => setPreview(fileReader.result as string);
-    } else {
-      setPreview(undefined);
+    if (imageFiles) {
+      for (const imageFile of imageFiles) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(imageFile);
+        fileReader.onloadend = () => {
+          setPreviews((prev) => [
+            ...prev,
+            { id: uuidv4(), src: fileReader.result as string },
+          ]);
+        };
+      }
     }
-  }, [img]);
+  }, [imageFiles]);
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    if (tweet) {
-      const { error } = await supabase.from('Tweets').insert({
-        tweet,
-        username,
-        email_id: emailId,
-        avatar: profilePic,
-      });
+  const upload = async () => {
+    for (const imageFile of imageFiles!) {
+      const { data, error } = await supabase.storage
+        .from('photos')
+        .upload(uuidv4() + imageFile.name, imageFile);
 
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success('Tweet added!');
-        setTweet('');
+        setImgPaths((prev) => [
+          ...prev,
+          process.env.NEXT_PUBLIC_SUPABASE_URL +
+            '/storage/v1/object/public/photos/' +
+            data.path,
+        ]);
       }
     }
+  };
 
-    if (preview && img) {
-      const { error: err } = await supabase.storage
-        .from('photos')
-        .upload(img.name, img);
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
 
-      if (err) {
-        toast.error(err.message);
-      } else {
-        toast.success('Tweet added!');
-        setPreview(undefined);
-        setImg(undefined);
-      }
+    if (previews.length) {
+      upload();
+    }
+
+    const { error } = await supabase.from('Tweets').insert({
+      tweet,
+      username,
+      email_id: emailId,
+      avatar: profilePic,
+      photos: imgPaths,
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      setTweet('');
+      setImgPaths([]);
+      setPreviews([]);
+      setImageFiles(undefined);
+      toast.success('Your tweet was sent');
     }
   };
 
@@ -118,24 +142,29 @@ export default function TweetInput() {
           value={tweet}
           onChange={handleChange}
         />
-        {preview && (
-          <img
-            onClick={() => setPreview(undefined)}
-            src={preview}
-            alt='Preview'
-            css={{
-              objectFit: 'cover',
-              width: '100%',
-              maxheight: '100%',
-              borderRadius: 15,
-              marginBottom: 8,
-              cursor: 'pointer',
-              '&:hover': {
-                opacity: '90%',
-              },
-            }}
-          />
-        )}
+        {previews.length
+          ? previews.map((preview) => (
+              <img
+                key={preview.id}
+                onClick={() => {
+                  setPreviews(previews.filter((img) => img.id !== preview.id));
+                }}
+                src={preview.src}
+                alt='Preview'
+                css={{
+                  objectFit: 'cover',
+                  width: '100%',
+                  maxheight: '100%',
+                  borderRadius: 15,
+                  marginBottom: 8,
+                  cursor: 'pointer',
+                  '&:hover': {
+                    opacity: '90%',
+                  },
+                }}
+              />
+            ))
+          : null}
         <div
           css={{
             display: 'flex',
@@ -165,10 +194,11 @@ export default function TweetInput() {
             css={{ display: 'none' }}
             ref={fileRef}
             onChange={selectImg}
+            multiple
           />
           <button
             type='submit'
-            disabled={!tweet && !preview}
+            disabled={!tweet && !previews.length}
             className='disabled:opacity-50 disabled:cursor-not-allowed bg-twitter text-white font-bold text-sm sm:text-base rounded-full px-4 py-1 sm:px-5 sm:py-1.5'
           >
             Tweet
