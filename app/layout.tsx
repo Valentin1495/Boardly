@@ -27,9 +27,9 @@ export default async function RootLayout({
             <SessionProvider>
               <>
                 {session ? (
-                  <div className='flex lg:max-w-5xl xl:max-w-7xl mx-auto'>
+                  <div className='sm:grid grid-cols-9 max-w-2xl lg:max-w-5xl xl:max-w-7xl mx-auto xl:px-5'>
                     <SideBar />
-                    <div className='sm:ml-[95px] xl:ml-[280px]'>{children}</div>
+                    <div className='col-span-8 xl:col-span-7'>{children}</div>
                   </div>
                 ) : (
                   <Login />

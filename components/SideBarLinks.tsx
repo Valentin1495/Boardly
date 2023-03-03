@@ -26,6 +26,8 @@ export default function SideBarLinks() {
     <section
       css={{
         marginBottom: 75,
+        marginLeft: 'auto',
+        marginRight: 'auto',
         flexGrow: 1,
       }}
     >
@@ -102,9 +104,11 @@ export default function SideBarLinks() {
             color: 'white',
             width: 15,
             height: 15,
+            // marginLeft: 'auto',
+            // marginRight: 'auto',
             [mq[0]]: {
-              width: 30,
-              height: 30,
+              width: 25,
+              height: 25,
             },
           }}
           fill='currentcolor'

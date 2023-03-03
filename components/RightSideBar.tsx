@@ -88,7 +88,7 @@ export default function RightSideBar() {
   ];
 
   return (
-    <div className='hidden lg:block w-full px-3'>
+    <div className='hidden lg:block w-2/5 px-3 pb-3'>
       <Search />
 
       <Trends trends={data[0].trends} />

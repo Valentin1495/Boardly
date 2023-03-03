@@ -38,13 +38,13 @@ export default function SideBarProfile() {
     return (
       <>
         <div className='rounded-full mx-auto block xl:hidden animate-pulse bg-slate-200 w-9 h-9 sm:w-14 sm:h-14'></div>
-        <div className='mt-[140px] rounded-full w-[280px] h-12 bg-slate-200 animate-pulse hidden xl:block'></div>
+        <div className='mt-[140px] rounded-full w-[260px] h-14 bg-slate-200 animate-pulse hidden xl:block'></div>
       </>
     );
 
   return (
     <section
-      className='max-w-full'
+      className='max-w-full mx-auto xl:mr-3'
       css={{
         display: 'block',
         position: 'relative',
@@ -86,8 +86,8 @@ export default function SideBarProfile() {
             objectFit: 'cover',
             borderRadius: '50%',
             [mq[0]]: {
-              width: 56,
-              height: 56,
+              width: 50,
+              height: 50,
             },
             [mq[3]]: {
               marginRight: 15,

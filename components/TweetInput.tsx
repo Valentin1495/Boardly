@@ -108,8 +108,12 @@ export default function TweetInput() {
 
   return (
     <div
-      css={{ display: 'flex', padding: 12 }}
-      className='border-y border-y-slate-200 space-x-3'
+      css={{
+        display: 'flex',
+        padding: 12,
+        justifyContent: 'space-between',
+      }}
+      className='border-y border-y-slate-200'
     >
       {profilePic ? (
         <Link href={`/${emailId}`} css={{ minWidth: 'fit-content' }}>
@@ -124,9 +128,9 @@ export default function TweetInput() {
           />
         </Link>
       ) : (
-        <div className='animate-pulse bg-slate-200 w-10 h-10 sm:w-16 sm:h-16 rounded-full'></div>
+        <div className='min-w-fit animate-pulse bg-slate-200 w-10 h-10 sm:w-16 sm:h-16 rounded-full'></div>
       )}
-      <form css={{ width: '85%' }} onSubmit={handleSubmit}>
+      <form className='w-[90%] sm:w-[85%]' onSubmit={handleSubmit}>
         <textarea
           ref={textareaRef}
           placeholder="What's happening?"
