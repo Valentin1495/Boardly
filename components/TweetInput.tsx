@@ -5,7 +5,7 @@ import supabase from '@/utils/supabase';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -30,7 +30,7 @@ export default function TweetInput() {
 
   const handleChange = () => setTweet(textareaRef.current?.value!);
 
-  const selectImg = (e: ChangeEvent<HTMLInputElement>) => {
+  const selectImg = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
     if (files?.length) {
@@ -40,11 +40,10 @@ export default function TweetInput() {
 
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = '0px';
       textareaRef.current.style.height =
         textareaRef.current.scrollHeight + 'px';
     }
-  }, [textareaRef]);
+  }, [tweet]);
 
   useEffect(() => {
     if (imageFiles) {
@@ -80,7 +79,7 @@ export default function TweetInput() {
     }
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (previews.length) {

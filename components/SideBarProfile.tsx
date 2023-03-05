@@ -59,9 +59,6 @@ export default function SideBarProfile() {
       <button
         className='profile-btn'
         css={{
-          [mq[0]]: {
-            // marginRight: 12,
-          },
           [mq[3]]: {
             display: 'flex',
             marginRight: 0,

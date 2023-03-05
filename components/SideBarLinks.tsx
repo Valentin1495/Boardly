@@ -25,10 +25,12 @@ export default function SideBarLinks() {
   return (
     <section
       css={{
-        marginBottom: 75,
+        marginBottom: 150,
+        [mq[3]]: {
+          marginBottom: 120,
+        },
         marginLeft: 'auto',
         marginRight: 'auto',
-        flexGrow: 1,
       }}
     >
       <Link href='/'>
@@ -104,8 +106,6 @@ export default function SideBarLinks() {
             color: 'white',
             width: 15,
             height: 15,
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
             [mq[0]]: {
               width: 25,
               height: 25,
