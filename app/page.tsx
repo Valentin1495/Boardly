@@ -3,6 +3,8 @@ import TweetInput from '@/components/TweetInput';
 import Tweets, { Post } from '@/components/Tweets';
 import supabase from '@/utils/supabase';
 
+export const revalidate = 0;
+
 export default async function Home() {
   const { data, error } = await supabase
     .from('Tweets')
