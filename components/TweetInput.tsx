@@ -100,30 +100,6 @@ export default function TweetInput() {
     }
   };
 
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   if (previews.length) {
-  //     upload();
-  //   } else {
-  //     const { error } = await supabase.from('Tweets').insert({
-  //       tweet,
-  //       username,
-  //       email_id: emailId,
-  //       avatar: profilePic,
-  //       photos: [],
-  //     });
-
-  //     if (error) {
-  //       toast.error(error.message);
-  //     } else {
-  //       setTweet('');
-  //       setImageFiles(undefined);
-  //       toast.success('Your tweet was sent');
-  //     }
-  //   }
-  // };
-
   return (
     <div
       css={{
