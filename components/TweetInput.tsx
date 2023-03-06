@@ -26,7 +26,7 @@ export default function TweetInput() {
   const [tweet, setTweet] = useState<string>('');
   const [previews, setPreviews] = useState<Previews[]>([]);
   const [imageFiles, setImageFiles] = useState<FileList>();
-  const [imgPaths, setImgPaths] = useState<string[]>([]);
+  let imgPaths: string[] = [];
 
   const handleChange = () => setTweet(textareaRef.current?.value!);
 
@@ -60,30 +60,26 @@ export default function TweetInput() {
     }
   }, [imageFiles]);
 
-  const upload = async () => {
-    for (const imageFile of imageFiles!) {
-      const { data, error } = await supabase.storage
-        .from('photos')
-        .upload(uuidv4() + imageFile.name, imageFile);
-
-      if (error) {
-        toast.error(error.message);
-      } else {
-        setImgPaths((prev) => [
-          ...prev,
-          process.env.NEXT_PUBLIC_SUPABASE_URL +
-            '/storage/v1/object/public/photos/' +
-            data.path,
-        ]);
-      }
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const sendTweet = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (previews.length) {
-      upload();
+      for (const imageFile of imageFiles!) {
+        const { data, error } = await supabase.storage
+          .from('photos')
+          .upload(uuidv4() + imageFile.name, imageFile);
+
+        if (error) {
+          toast.error(error.message);
+        } else {
+          imgPaths = [
+            ...imgPaths,
+            process.env.NEXT_PUBLIC_SUPABASE_URL +
+              '/storage/v1/object/public/photos/' +
+              data.path,
+          ];
+        }
+      }
     }
 
     const { error } = await supabase.from('Tweets').insert({
@@ -98,12 +94,35 @@ export default function TweetInput() {
       toast.error(error.message);
     } else {
       setTweet('');
-      setImgPaths([]);
       setPreviews([]);
       setImageFiles(undefined);
       toast.success('Your tweet was sent');
     }
   };
+
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   if (previews.length) {
+  //     upload();
+  //   } else {
+  //     const { error } = await supabase.from('Tweets').insert({
+  //       tweet,
+  //       username,
+  //       email_id: emailId,
+  //       avatar: profilePic,
+  //       photos: [],
+  //     });
+
+  //     if (error) {
+  //       toast.error(error.message);
+  //     } else {
+  //       setTweet('');
+  //       setImageFiles(undefined);
+  //       toast.success('Your tweet was sent');
+  //     }
+  //   }
+  // };
 
   return (
     <div
@@ -129,7 +148,7 @@ export default function TweetInput() {
       ) : (
         <div className='min-w-fit animate-pulse bg-slate-200 w-10 h-10 sm:w-16 sm:h-16 rounded-full'></div>
       )}
-      <form className='w-[90%] sm:w-[85%]' onSubmit={handleSubmit}>
+      <form className='w-[90%] sm:w-[85%]' onSubmit={sendTweet}>
         <textarea
           ref={textareaRef}
           placeholder="What's happening?"
@@ -145,29 +164,37 @@ export default function TweetInput() {
           value={tweet}
           onChange={handleChange}
         />
-        {previews.length
-          ? previews.map((preview) => (
-              <img
-                key={preview.id}
-                onClick={() => {
-                  setPreviews(previews.filter((img) => img.id !== preview.id));
-                }}
-                src={preview.src}
-                alt='Preview'
-                css={{
-                  objectFit: 'cover',
-                  width: '100%',
-                  maxheight: '100%',
-                  borderRadius: 15,
-                  marginBottom: 8,
-                  cursor: 'pointer',
-                  '&:hover': {
-                    opacity: '90%',
-                  },
-                }}
-              />
-            ))
-          : null}
+
+        <div
+          css={{ display: 'grid', marginBottom: 10 }}
+          className='grid-cols-2 gap-2'
+        >
+          {previews.length
+            ? previews.map((preview) => (
+                <img
+                  key={preview.id}
+                  onClick={() => {
+                    setPreviews(
+                      previews.filter((img) => img.id !== preview.id)
+                    );
+                  }}
+                  className='mx-auto aspect-video'
+                  src={preview.src}
+                  alt='Preview'
+                  css={{
+                    objectFit: 'cover',
+                    width: '100%',
+                    borderRadius: 8,
+                    cursor: 'pointer',
+                    '&:hover': {
+                      opacity: '90%',
+                    },
+                  }}
+                />
+              ))
+            : null}
+        </div>
+
         <div
           css={{
             display: 'flex',
@@ -175,22 +202,25 @@ export default function TweetInput() {
             justifyContent: 'space-between',
           }}
         >
-          <PhotoIcon
+          <button
+            type='button'
+            disabled={previews.length === 4}
             onClick={() => fileRef.current?.click()}
-            className='text-twitter'
+            className='disabled:cursor-not-allowed disabled:hover:bg-inherit hover:bg-twitter-hover disabled:opacity-50'
             css={{
-              width: 40,
-              height: 40,
               borderRadius: '50%',
-              padding: 8,
               transition: 'background-color 300ms',
-              cursor: 'pointer',
-              '&:hover': {
-                backgroundColor: 'rgba(29, 155, 240, 0.1)',
-              },
             }}
-          />
-
+          >
+            <PhotoIcon
+              className='text-twitter'
+              css={{
+                width: 40,
+                height: 40,
+                padding: 8,
+              }}
+            />
+          </button>
           <input
             type='file'
             accept='image/*'
@@ -199,6 +229,7 @@ export default function TweetInput() {
             onChange={selectImg}
             multiple
           />
+
           <button
             type='submit'
             disabled={!tweet && !previews.length}

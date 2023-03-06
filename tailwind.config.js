@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         twitter: 'rgb(29, 155, 240)',
+        'twitter-hover': 'rgba(29, 155, 240, 0.1)',
       },
     },
   },
