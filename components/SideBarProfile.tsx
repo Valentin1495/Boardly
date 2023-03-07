@@ -91,6 +91,7 @@ export default function SideBarProfile() {
               pointerEvents: 'none',
             },
           }}
+          referrerPolicy='no-referrer'
         />
 
         <section

@@ -1,3 +1,4 @@
+import Loader from '@/components/Loader';
 import RightSideBar from '@/components/RightSideBar';
 import TweetInput from '@/components/TweetInput';
 import Tweets, { Post } from '@/components/Tweets';

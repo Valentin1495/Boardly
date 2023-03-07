@@ -19,6 +19,7 @@ export default function Tweet({
         alt='avatar'
         className='w-10 h-10 sm:w-14 sm:h-14'
         css={{ borderRadius: '50%', objectFit: 'cover' }}
+        referrerPolicy='no-referrer'
       />
       <div className='space-y-1'>
         <div>

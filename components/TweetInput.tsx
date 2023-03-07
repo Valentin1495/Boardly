@@ -119,6 +119,7 @@ export default function TweetInput() {
               objectFit: 'cover',
               borderRadius: '50%',
             }}
+            referrerPolicy='no-referrer'
           />
         </Link>
       ) : (
