@@ -1,6 +1,7 @@
 import { getSession, login } from '@/actions/user.action';
 import Background from '@/components/background';
 import Header from '@/components/header';
+import Quote from '@/components/quote';
 import { Button } from '@/components/ui/button';
 import { revalidatePath } from 'next/cache';
 import Image from 'next/image';
@@ -10,9 +11,10 @@ export default async function Home() {
 
   if (session) {
     return (
-      <main>
-        <Header />
+      <main className=''>
         <Background />
+        <Header />
+        <Quote />
       </main>
     );
   }
