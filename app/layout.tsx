@@ -1,10 +1,15 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Navbar from '@/components/navbar';
 
 export const metadata: Metadata = {
-  title: 'Travel',
-  description: 'Travel UI/UX App for Camping',
+  title: 'Mannage Your Projects From Anywhere | Boardly',
+  description: 'Boardly is a project management tool',
+  icons: [
+    {
+      url: '/logo.svg',
+      href: '/logo.svg',
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -14,10 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body>
-        <Navbar />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
