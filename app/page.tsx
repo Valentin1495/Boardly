@@ -1,5 +1,6 @@
-import { getSession, login } from '@/actions/user.action';
+import { createUser, getSession, login } from '@/actions/user.action';
 import Background from '@/components/background';
+import Board from '@/components/board';
 import Header from '@/components/header';
 import Quote from '@/components/quote';
 import { Button } from '@/components/ui/button';
@@ -10,11 +11,14 @@ export default async function Home() {
   const session = await getSession();
 
   if (session) {
+    await createUser(session.user.id);
+
     return (
-      <main className=''>
+      <main>
         <Background />
         <Header />
         <Quote />
+        <Board />
       </main>
     );
   }
